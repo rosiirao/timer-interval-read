@@ -1,0 +1,34 @@
+{
+  "name": "timer-interval-read",
+  "version": "0.1.0-alpha",
+  "description": "push data by a specific timer interval",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "keywords": [],
+  "scripts": {
+    "test": "jest",
+    "check": "gts check",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run check"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.14",
+    "@types/node": "^14.11.1",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
+    "gts": "^2.0.2",
+    "jest": "^26.4.2",
+    "ts-jest": "^26.4.0"
+  },
+  "dependencies": {
+    "typescript": "^4.0.3"
+  }
+}
