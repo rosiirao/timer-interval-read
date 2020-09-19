@@ -1,6 +1,6 @@
 import createTimer, {Timer_Unit} from './timer';
 
-type ReadOptions = {
+export type ReadOptions = {
   interval: number;
   rotate?: boolean;
   time_unit?: Timer_Unit;
@@ -14,7 +14,7 @@ const defaultOptions: ReadOptions = {
   time_unit: Timer_Unit.Second,
 };
 
-export async function read<T>(
+export async function readByTimer<T>(
   iterable: Iterable<T>,
   consume: (t: T) => void,
   options = defaultOptions
@@ -61,4 +61,4 @@ export async function read<T>(
   }
 }
 
-export default read;
+export default readByTimer;

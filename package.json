@@ -1,7 +1,7 @@
 {
-  "name": "circle-pointer-generator",
+  "name": "time-interval-read",
   "version": "0.0.0",
-  "description": "",
+  "description": "push data by a specific time interval",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "files": [
