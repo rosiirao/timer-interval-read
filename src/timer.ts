@@ -4,7 +4,13 @@ export enum Timer_Unit {
   Frame,
 }
 
-type TimerCreator = (interval: number) => Promise<void>;
+/**
+ * the time interval value
+ * must be a Integer or the times of 0.5 second
+ */
+export type Interval = number;
+
+type TimerCreator = (interval: Interval) => Promise<void>;
 
 const timerByFrame: TimerCreator = async function (interval) {
   if (interval < 1) {
@@ -42,8 +48,8 @@ const timerByMillisecond: TimerCreator = async function (interval) {
   });
 };
 
-const createTimer = function (
-  interval: number,
+export const createTimer = function (
+  interval: Interval,
   unit: Timer_Unit
 ): () => Promise<void> {
   const creator: Record<Timer_Unit, () => Promise<void>> = {
