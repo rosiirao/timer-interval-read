@@ -1,6 +1,6 @@
 {
   "name": "timer-interval-read",
-  "version": "0.0.0",
+  "version": "0.1.0-alpha",
   "description": "push data by a specific timer interval",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
