@@ -7,7 +7,7 @@ Push data from Iterable by a specific timer interval by time unit of second, mil
 install from github.
 
 ```zsh
-npm install -D rosiirao/timer-interval-read#alpha
+npm install -D rosiirao/timer-interval-read#v0.1.0-alpha
 ```
 
 import module and use it.
