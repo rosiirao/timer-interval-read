@@ -2,10 +2,6 @@ import {Timer_Unit} from '../timer';
 import createStream from '../generator-stream';
 import readByTimer from '../read-by-timer';
 
-beforeEach(() => {
-  // jest.useFakeTimers();
-});
-
 const callbackCreate = (fn?: (_: number) => void) => jest.fn(fn);
 
 describe('read by timer', () => {
@@ -46,7 +42,6 @@ describe('read by timer', () => {
     readNumbers.forEach((x, i) => expect(callback.mock.calls[i]).toEqual([x]));
   }, 1000);
   test('stop rotatory reader by timer', async () => {
-    jest.useRealTimers();
     const callback = callbackCreate();
     let stop: () => void = () => {
       /** do nothing */ 1;
@@ -60,11 +55,34 @@ describe('read by timer', () => {
       },
     };
     const reading = readByTimer(generator(), callback, readOptions);
-    setTimeout(stop as () => void, 250);
+    setTimeout(stop as () => void, 260);
     await reading;
     expect(callback.mock.calls.length).toBeGreaterThanOrEqual(14);
     expect(callback.mock.calls.length).toBeLessThanOrEqual(16);
   }, 2000);
+  test('infinite timer read passed', async () => {
+    jest.useFakeTimers();
+    const callback = callbackCreate();
+    function* generator() {
+      for (let x = 0; ; x = x + 1) {
+        yield x;
+      }
+    }
+    const readOptions: ReadOptions = {
+      rotate: true,
+      interval: 1,
+      time_unit: Timer_Unit.Second,
+    };
+    readByTimer(generator(), callback, readOptions);
+    for (let x = 0; x < 100; x++) {
+      jest.runOnlyPendingTimers();
+      await new Promise(resolve => {
+        process.nextTick(resolve);
+      });
+      expect(callback.mock.calls[x]).toEqual([x]);
+    }
+    jest.clearAllTimers();
+  });
 });
 
 /**
