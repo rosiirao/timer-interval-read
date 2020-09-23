@@ -38,26 +38,54 @@ export async function readByTimer<T>(
     };
     stopExecutor(stop);
   }
+  // the rotate cached array with a max length
+  let cache: {
+    readonly maxLength: number;
+    readonly data: T[];
+    closed: boolean;
+    push: (data: T) => T[];
+    close: () => void;
+  };
   if (rotate) {
     // if need rotate read, convert it to a arry.
-    iterable = Array.from(iterable);
+    cache = {
+      closed: false,
+      data: [],
+      maxLength: 1024,
+      push: function (data) {
+        if (!this.closed && cache.data.length < cache.maxLength) {
+          cache.data.push(data);
+        }
+        return cache.data;
+      },
+      close: function () {
+        this.closed = true;
+      },
+    };
   }
+
   let times = 0;
-  for (;;) {
+  for (let t = timer(); ; ) {
     for (const item of iterable) {
-      await timer();
+      await t;
       if (quit) {
         return;
       }
+      // create and run next timer ahead of consuming
+      t = timer();
       times++;
       consume(item);
       if (max_times <= times) {
         return;
       }
+      if (rotate) {
+        cache!.push(item);
+      }
     }
-    if (!rotate) {
+    if (!rotate || ((iterable as T[]) = cache!.data).length === 0) {
       return;
     }
+    cache!.close();
   }
 }
 

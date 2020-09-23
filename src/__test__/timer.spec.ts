@@ -59,5 +59,5 @@ describe('createTimer', () => {
     ];
     await callTest(callback, ...timers);
     expect(callback.mock.calls).toEqual([[3], [2], [1]]);
-  });
+  }, 2000);
 });
